@@ -1,0 +1,149 @@
+
+1. Admin Authentication
+
+- Login
+- Logout
+- Forgot Password
+- Change Password
+
+Possible scenario:
+- Accessing the admin account to manage the system
+
+
+2. Admin Dashboard
+
+- View total incidents
+- View pending incidents
+- View verified incidents
+- View resolved incidents
+- View recent incidents
+- View incident statistics
+- View incidents by category
+
+Possible scenario:
+- Checking the overall status and summary of reported incidents
+
+
+3. Incident Management
+
+- View all incidents
+- Search incidents
+- Filter incidents
+- Sort incidents
+- View incident details
+- View incident location
+- View incident photos
+- View reporter information
+
+Possible scenario:
+- Finding and reviewing a specific incident report
+
+
+4. Incident Verification
+
+- Review submitted reports
+- Check incident details
+- Check photos
+- Check location
+- Verify incident
+- Reject invalid reports
+- Mark duplicate reports
+- Add verification notes
+
+Possible scenario:
+- Checking a report before deciding whether it is valid
+
+
+5. Status Management
+
+- Update incident status
+- Mark as Submitted
+- Mark as Verified
+- Mark as Resolved
+- Reject report
+- Archive report
+
+Possible scenario:
+- Updating the status of an incident after processing it
+
+
+6. GIS / Map Monitoring
+
+- View OpenStreetMap
+- View incident locations
+- Display incident markers
+- Filter map markers
+- View incident details
+- Monitor incident-prone areas
+
+Possible scenario:
+- Monitoring where road incidents are being reported
+
+
+7. User Management
+
+- View users
+- Search users
+- View user information
+- Activate/deactivate accounts
+- Manage user roles
+- View user reports
+
+Possible scenario:
+- Managing user accounts and checking their submitted reports
+
+
+8. Analytics and Reports
+
+- View incident statistics
+- Analyze by category
+- Analyze by severity
+- Analyze by location
+- Analyze by status
+- View incident trends
+- View resolution rate
+- Generate incident reports
+- View daily reports
+- View weekly reports
+- View monthly reports
+- Export reports
+
+Possible scenario:
+- Analyzing incident data and generating reports
+
+
+9. Notifications
+
+- Send status notifications
+- Notify users of verified reports
+- Notify users of resolved reports
+- Send critical incident alerts
+
+Possible scenario:
+- Informing users about updates or important incidents
+
+
+10. Audit Logs
+
+- Record admin activities
+- Record report verification
+- Record status changes
+- Record report assignments
+- Record archived reports
+- Record account changes
+
+Possible scenario:
+- Checking the records of admin actions and system changes
+
+
+11. Settings
+
+- Manage admin profile
+- Manage incident categories
+- Manage severity levels
+- Manage emergency contacts
+- Manage notification settings
+- Manage system settings
+
+Possible scenario:
+- Adjusting the system settings and admin preferences
