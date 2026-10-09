@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_screen_gradient"
+    tools:context=".Login">
+
+    <!-- Back Button -->
+    <TextView
+        android:id="@+id/txtBack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:padding="4dp"
+        android:text="‹  Back"
+        android:textColor="#2563EB"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <!-- Logo -->
+    <ImageView
+        android:id="@+id/imgLoginLogo"
+        android:layout_width="151dp"
+        android:layout_height="106dp"
+        android:layout_marginTop="12dp"
+        android:contentDescription="Incidex Logo"
+        android:scaleType="fitCenter"
+        android:src="@drawable/incidex_logo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtBack" />
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/txtLoginTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:text="Welcome Back"
+        android:textColor="#111827"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/imgLoginLogo" />
+
+    <!-- Subtitle -->
+    <TextView
+        android:id="@+id/txtLoginSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Log in to your account"
+        android:textColor="#64748B"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtLoginTitle" />
+
+    <!-- FORM CARD (background only, must stay before the fields) -->
+    <View
+        android:id="@+id/viewFormCard"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="-24dp"
+        android:background="@drawable/bg_form_card"
+        android:elevation="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/btnLoginAccount"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtLoginSubtitle" />
+
+    <!-- Sign in as label -->
+    <TextView
+        android:id="@+id/txtRoleLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="24dp"
+        android:elevation="4dp"
+        android:text="Sign in as"
+        android:textColor="#111827"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/viewFormCard" />
+
+    <!-- User Button -->
+    <Button
+        android:id="@+id/btnUser"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="6dp"
+        android:background="@drawable/bg_role_selector"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"
+        android:text="User"
+        android:textAllCaps="false"
+        android:textColor="@color/role_text_color"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@id/btnAdmin"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtRoleLabel" />
+
+    <!-- Admin Button -->
+    <Button
+        android:id="@+id/btnAdmin"
+        android:layout_width="0dp"
+        android:layout_height="44dp"
+        android:layout_marginStart="6dp"
+        android:layout_marginEnd="44dp"
+        android:background="@drawable/bg_role_selector"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"
+        android:text="Admin"
+        android:textAllCaps="false"
+        android:textColor="@color/role_text_color"
+        android:textSize="13sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintStart_toEndOf="@id/btnUser"
+        app:layout_constraintTop_toTopOf="@id/btnUser" />
+
+    <!-- Email Label -->
+    <TextView
+        android:id="@+id/txtEmailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="18dp"
+        android:elevation="4dp"
+        android:text="Email"
+        android:textColor="#111827"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnUser" />
+
+    <!-- Email -->
+    <EditText
+        android:id="@+id/edtEmail"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="44dp"
+        android:background="@drawable/bg_input"
+        android:elevation="4dp"
+        android:hint="Enter your email"
+        android:inputType="textEmailAddress"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:singleLine="true"
+        android:textColor="#111827"
+        android:textColorHint="#9CA3AF"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtEmailLabel" />
+
+    <!-- Password Label -->
+    <TextView
+        android:id="@+id/txtPasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="16dp"
+        android:elevation="4dp"
+        android:text="Password"
+        android:textColor="#111827"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtEmail" />
+
+    <!-- Password -->
+    <EditText
+        android:id="@+id/edtPassword"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="44dp"
+        android:background="@drawable/bg_input"
+        android:elevation="4dp"
+        android:hint="Enter your password"
+        android:inputType="textPassword"
+        android:paddingStart="14dp"
+        android:paddingEnd="14dp"
+        android:singleLine="true"
+        android:textColor="#111827"
+        android:textColorHint="#9CA3AF"
+        android:textSize="13sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtPasswordLabel" />
+
+    <!-- Forgot Password -->
+    <TextView
+        android:id="@+id/txtForgotPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="44dp"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:focusable="true"
+        android:text="Forgot Password?"
+        android:textColor="#2563EB"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/edtPassword" />
+
+    <!-- Login Button -->
+    <Button
+        android:id="@+id/btnLoginAccount"
+        android:layout_width="0dp"
+        android:layout_height="52dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="44dp"
+        android:background="@drawable/bg_login_button"
+        android:elevation="4dp"
+        android:stateListAnimator="@null"
+        android:text="Log In"
+        android:textAllCaps="false"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/txtForgotPassword" />
+
+    <!-- Register Text -->
+    <LinearLayout
+        android:id="@+id/registerLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewFormCard">
+
+        <TextView
+            android:id="@+id/txtRegisterMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Don't have an account? "
+            android:textColor="#64748B"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/txtRegister"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:paddingStart="2dp"
+            android:paddingEnd="2dp"
+            android:text="Register"
+            android:textColor="#2563EB"
+            android:textSize="12sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
