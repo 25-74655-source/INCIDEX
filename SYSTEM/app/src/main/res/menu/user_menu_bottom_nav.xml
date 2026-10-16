@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/user_nav_home" android:title="Home"
+        android:icon="@android:drawable/ic_menu_myplaces" />
+    <item android:id="@+id/user_nav_map" android:title="Map"
+        android:icon="@android:drawable/ic_menu_mapmode" />
+    <item android:id="@+id/user_nav_reports" android:title="My Reports"
+        android:icon="@android:drawable/ic_menu_agenda" />
+    <item android:id="@+id/user_nav_profile" android:title="Profile"
+        android:icon="@android:drawable/ic_menu_preferences" />
+</menu>
