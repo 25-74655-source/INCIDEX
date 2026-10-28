@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "868826208968",
+    "project_id": "incidex-2c571",
+    "storage_bucket": "incidex-2c571.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:868826208968:android:a2df856bdab158a253e3fd",
+        "android_client_info": {
+          "package_name": "com.incidex.backend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyApBpqlmy3-m4mX_35hxOmcMY03hd9HsbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

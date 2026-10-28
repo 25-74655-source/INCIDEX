@@ -1,0 +1,10 @@
+Add to the Android app module dependencies (check the current Firebase Android setup docs for the latest BoM version):
+
+implementation(platform("com.google.firebase:firebase-bom:<CURRENT_BOM_VERSION>"))
+implementation("com.google.firebase:firebase-auth")
+implementation("com.google.firebase:firebase-firestore")
+implementation("com.google.firebase:firebase-storage")
+implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:<CURRENT_COMPATIBLE_VERSION>")
+
+Also apply the Google Services Gradle plugin as directed by the current Firebase Android setup documentation, and place google-services.json in the app module directory.
+Do not paste the placeholder version strings literally; replace them with versions from the official setup page.
