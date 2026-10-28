@@ -7,7 +7,6 @@ import androidx.core.content.ContextCompat
 
 object IncidentIcons {
 
-    // Change this one value to recolor every icon in the app.
     const val ICON_BLUE = "#1E3A8A"
 
     @DrawableRes
@@ -26,7 +25,6 @@ object IncidentIcons {
     fun colorFor(type: String): Int = Color.parseColor(ICON_BLUE)
 }
 
-/** Puts a small tinted icon at the start of a TextView (replaces emoji prefixes). */
 fun TextView.setStartIcon(@DrawableRes res: Int, color: Int, sizeDp: Int = 16, paddingDp: Int = 6) {
     val d = ContextCompat.getDrawable(context, res)?.mutate() ?: return
     val density = resources.displayMetrics.density
@@ -37,7 +35,6 @@ fun TextView.setStartIcon(@DrawableRes res: Int, color: Int, sizeDp: Int = 16, p
     compoundDrawablePadding = (paddingDp * density).toInt()
 }
 
-/** Puts a small tinted icon above the text of a TextView. */
 fun TextView.setTopIcon(@DrawableRes res: Int, color: Int, sizeDp: Int = 32, paddingDp: Int = 6) {
     val d = ContextCompat.getDrawable(context, res)?.mutate() ?: return
     val density = resources.displayMetrics.density

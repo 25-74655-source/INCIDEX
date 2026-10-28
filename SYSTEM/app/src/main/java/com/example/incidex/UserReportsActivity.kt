@@ -47,6 +47,8 @@ class UserReportsActivity : AppCompatActivity() {
                 applyFilter()
             }
         }
+        // Reload whenever the user's reports change
+        ReportStore.observe(this) { refresh() }
 
         // BOTTOM NAV
         BottomNavHelper.setup(this, findViewById(R.id.bottomNav), R.id.nav_reports)
@@ -75,7 +77,6 @@ class UserReportsActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        refresh() // may bagong report ba galing sa wizard?
         BottomNavHelper.highlight(findViewById<BottomNavigationView>(R.id.bottomNav), R.id.nav_reports)
     }
 }

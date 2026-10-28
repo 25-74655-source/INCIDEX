@@ -58,6 +58,11 @@ class UserReportDetailActivity : AppCompatActivity() {
         if (userPhoto != null) {
             imgPhoto.setImageBitmap(userPhoto)
             imgPhoto.visibility = View.VISIBLE
+        } else if (!r.photoUrl.isNullOrBlank()) {
+            imgPhoto.visibility = View.VISIBLE
+            ImageLoader.load(imgPhoto, r.photoUrl) { ok ->
+                if (!ok) imgPhoto.visibility = View.GONE
+            }
         } else if (r.photoRes != 0) {
             imgPhoto.setImageResource(r.photoRes)
             imgPhoto.visibility = View.VISIBLE
@@ -82,7 +87,6 @@ class UserReportDetailActivity : AppCompatActivity() {
             findViewById(R.id.cardMap)
         ) { setupMapOnce() }
 
-        // Para gumana ang pan/zoom ng map sa loob ng ScrollView
         val scroll = findViewById<ScrollView>(R.id.scroll)
         findViewById<MapView>(R.id.detailMapView).setOnTouchListener { _, e ->
             scroll.requestDisallowInterceptTouchEvent(

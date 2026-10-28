@@ -27,5 +27,21 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<View>(R.id.btnQuickReport).setOnClickListener(openQuickReport)
         findViewById<View>(R.id.txtQuickReport).setOnClickListener(openQuickReport)
+
+        // Already signed in from an earlier launch? Go straight to the right home screen.
+        AuthRepository.restoreSession { profile ->
+            if (profile == null || isFinishing || isDestroyed) return@restoreSession
+
+            if (profile.role == AuthRepository.ROLE_ADMIN) {
+                AdminSession.name = profile.name
+                AdminSession.email = profile.email
+                startActivity(Intent(this, AdminHome::class.java))
+            } else {
+                UserSession.name = profile.name
+                UserSession.email = profile.email
+                startActivity(Intent(this, UserHome::class.java))
+            }
+            finish()
+        }
     }
 }

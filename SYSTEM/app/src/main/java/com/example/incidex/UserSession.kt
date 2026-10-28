@@ -1,14 +1,12 @@
 package com.example.incidex
 
-// Temporary in-memory session. Papalitan ng Firebase Auth wag mo kalimutan bading.
+// MAY DATA BASE NA SIYA
 object UserSession {
-    var name: String = "Juan dela Cruz"
+    var name: String = ""
     var email: String = ""
-    var phone: String = ""
 
     fun clear() {
-        name = "Juan dela Cruz"
+        name = ""
         email = ""
-        phone = ""
     }
 }

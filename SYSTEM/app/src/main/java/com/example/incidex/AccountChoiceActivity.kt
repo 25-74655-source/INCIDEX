@@ -16,7 +16,6 @@ class AccountChoiceActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.account_choice)
 
-        // Tell them their report went through
         intent.getStringExtra(EXTRA_REPORT_ID)?.let { id ->
             findViewById<TextView>(R.id.txtChoiceSub).text =
                 "Your report $id was sent. Log in or create an account to track it and get updates."

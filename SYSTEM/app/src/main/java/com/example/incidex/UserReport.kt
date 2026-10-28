@@ -11,7 +11,8 @@ enum class Severity(val label: String, val text: String, val bg: String) {
 enum class Status(val label: String, val text: String, val bg: String) {
     SUBMITTED("SUBMITTED", "#F59E0B", "#FEF3C7"),
     VERIFIED("VERIFIED", "#2563EB", "#E8EEFF"),
-    RESOLVED("RESOLVED", "#16A34A", "#DCFCE7")
+    RESOLVED("RESOLVED", "#16A34A", "#DCFCE7"),
+    REJECTED("REJECTED", "#64748B", "#F1F5F9")
 }
 
 data class UserReport(
@@ -28,6 +29,10 @@ data class UserReport(
     val submittedTime: String,
     val verifiedTime: String? = null,
     val resolvedTime: String? = null,
-    val photoRes: Int = 0,         // 0 = walang drawable photo
-    val photoPath: String? = null  // photo galing sa user (file path)
+    val photoRes: Int = 0,         // 0 = no drawable photo
+    val photoPath: String? = null, // local photo file (only while a report is being made)
+    val photoUrl: String? = null,  // NEW: photo stored in Cloudinary
+    val reporter: String = "",     // who submitted it
+    val adminNote: String = "",    // note added by an admin
+    val createdAt: Long = System.currentTimeMillis()
 ) : Serializable

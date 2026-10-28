@@ -9,7 +9,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import java.util.Calendar
 
 class Login : AppCompatActivity() {
 
@@ -58,11 +57,7 @@ class Login : AppCompatActivity() {
             val password = edtPassword.text.toString().trim()
 
             if (selectedRole.isEmpty()) {
-                Toast.makeText(
-                    this,
-                    "Please select User or Admin",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(this, "Please select User or Admin", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
 
@@ -78,20 +73,40 @@ class Login : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            if (selectedRole == "User") {
-                // temporary until we have real accounts
-                UserSession.name = "Juan dela Cruz"
-                UserSession.email = email
-                UserSession.phone = "09171234567"
+            btnLogin.isEnabled = false
+            AuthRepository.signIn(email, password) { profile, error ->
+                btnLogin.isEnabled = true
 
-                startActivity(Intent(this, UserHome::class.java))
+                if (profile == null) {
+                    Toast.makeText(this, error ?: "Login failed", Toast.LENGTH_LONG).show()
+                    return@signIn
+                }
+
+                val isAdmin = profile.role == AuthRepository.ROLE_ADMIN
+
+                if ((selectedRole == "Admin") != isAdmin) {
+                    AuthRepository.signOut()
+                    Toast.makeText(
+                        this,
+                        if (selectedRole == "Admin") "This account is not an administrator."
+                        else "This is an admin account. Select Admin to log in.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                    return@signIn
+                }
+
+                ReportStore.start(isAdmin)
+
+                if (isAdmin) {
+                    AdminSession.name = profile.name
+                    AdminSession.email = profile.email
+                    startActivity(Intent(this, AdminHome::class.java))
+                } else {
+                    UserSession.name = profile.name
+                    UserSession.email = profile.email
+                    startActivity(Intent(this, UserHome::class.java))
+                }
                 finish()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Admin side coming soon",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
 
@@ -110,6 +125,7 @@ class Login : AppCompatActivity() {
     }
 }
 
+// `icon` is unused now (icons come from IncidentIcons); kept so other code still compiles.
 data class ReportType(val icon: String = "", val name: String, val quickLabel: String)
 
 val REPORT_TYPES = listOf(
@@ -121,7 +137,6 @@ val REPORT_TYPES = listOf(
     ReportType(name = "Other", quickLabel = "Other")
 )
 
-// Pansamantalang sagot habang ginagawa ang report (hindi pa naka-save)
 class ReportDraft {
     var lat: Double? = null
     var lng: Double? = null
@@ -131,78 +146,6 @@ class ReportDraft {
     var severity: Severity? = null
     var description: String = ""
     var photoPath: String? = null
-}
-
-// Temporary in-memory list. Papalitan ng Firebase later.
-object ReportStore {
-
-    private var counter = 35
-
-    private val items = mutableListOf(
-        UserReport(
-            id = "INC-2024-0031",
-            type = "Road Accident",
-            severity = Severity.CRITICAL,
-            status = Status.VERIFIED,
-            location = "Brgy. 4, Nasugbu, Batangas",
-            dateTime = "Sep 6, 2026 · 09:14 AM",
-            description = "Vehicle collision near the Wawa junction. Two motorcycles involved, one lane blocked.",
-            lat = 14.0745,
-            lng = 120.6310,
-            submittedTime = "09:14 AM",
-            verifiedTime = "09:28 AM"
-        ),
-        UserReport(
-            id = "INC-2024-0032",
-            type = "Flooding",
-            severity = Severity.MODERATE,
-            status = Status.SUBMITTED,
-            location = "Brgy. Tumalim, Nasugbu, Batangas",
-            dateTime = "Oct 4, 2026 · 08:52 AM",
-            description = "Knee-deep flood on the main road, vehicles slowing down.",
-            lat = 14.0690,
-            lng = 120.6360,
-            submittedTime = "08:52 AM"
-        ),
-        UserReport(
-            id = "INC-2024-0033",
-            type = "Traffic",
-            severity = Severity.MODERATE,
-            status = Status.VERIFIED,
-            location = "Brgy 6, Nasugbu Batangas",
-            dateTime = "Sep 4, 2026 · 08:10 AM",
-            description = "Heavy traffic near the public market due to road works.",
-            lat = 14.0770,
-            lng = 120.6400,
-            submittedTime = "08:10 AM",
-            verifiedTime = "08:25 AM"
-        ),
-        UserReport(
-            id = "INC-2024-0034",
-            type = "Road Hazard",
-            severity = Severity.LOW,
-            status = Status.RESOLVED,
-            location = "Brgy. Bucana, Nasugbu, Batangas",
-            dateTime = "Sep 4, 2026 · 06:20 AM",
-            description = "Fallen tree branch on the shoulder of the road.",
-            lat = 14.0420,
-            lng = 120.6560,
-            submittedTime = "06:20 AM",
-            verifiedTime = "06:40 AM",
-            resolvedTime = "07:30 AM"
-        )
-    )
-
-    fun all(): List<UserReport> = items.toList()
-
-    fun add(report: UserReport) {
-        items.add(0, report) // pinakabago sa taas
-    }
-
-    fun nextId(): String {
-        val year = Calendar.getInstance().get(Calendar.YEAR)
-        return "INC-$year-${counter++.toString().padStart(4, '0')}"
-    }
 }
 
 // Nilo-load ang photo nang maliit para hindi mag-out-of-memory

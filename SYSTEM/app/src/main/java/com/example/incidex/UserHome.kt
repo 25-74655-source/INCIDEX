@@ -34,26 +34,7 @@ private fun UserReport.toIncident() = UserIncident(
 
 class UserHome : AppCompatActivity() {
 
-    // Frontend-only sample data. Replace with Firebase later.
-    private val sampleIncidents = listOf(
-        UserIncident(
-            "Road Accident", "Critical", "Verified",
-            "0.3 km · 12 min ago · Brgy. Wawa, Nasugbu",
-            14.0745, 120.6310
-        ),
-        UserIncident(
-            "Flooding", "Moderate", "Submitted",
-            "1.1 km · 34 min ago · Brgy. Tumalim",
-            14.0690, 120.6360
-        ),
-        UserIncident(
-            "Traffic", "Moderate", "Verified",
-            "1.8 km · 1 hr ago · Nasugbu Poblacion",
-            14.0770, 120.6400
-        )
-    )
-
-    // Reports the user submitted + the sample data
+    // The signed-in user's own reports
     private var allIncidents: List<UserIncident> = emptyList()
     private var currentFilter = "All"
 
@@ -206,7 +187,11 @@ class UserHome : AppCompatActivity() {
             chip.setOnClickListener { applyFilter(filter) }
         }
 
-        // The list itself is filled in onResume (runs right after onCreate)
+        // The list fills in (and refreshes) whenever the reports change
+        ReportStore.observe(this) {
+            loadIncidents()
+            applyFilter(currentFilter)
+        }
 
         // BOTTOM NAVIGATION
         BottomNavHelper.setup(
@@ -216,11 +201,9 @@ class UserHome : AppCompatActivity() {
         )
     }
 
-    /** Reads the saved reports again. Newest reports go first. */
+    /** Newest reports go first. */
     private fun loadIncidents() {
-        val mine = ReportStore.all()          // <-- rename if your getter differs
-            .map { it.toIncident() }
-        allIncidents = mine + sampleIncidents
+        allIncidents = ReportStore.all().map { it.toIncident() }
     }
 
     private fun applyFilter(filter: String) {
@@ -279,18 +262,15 @@ class UserHome : AppCompatActivity() {
 
     private fun bindHeader() {
         val name = UserSession.name
-        val firstName = name.split(" ").firstOrNull() ?: "Juan"
+        val firstName = name.trim().split(" ").firstOrNull().orEmpty()
 
         findViewById<TextView>(R.id.txtGreeting).text =
-            "Good day, $firstName"
+            if (firstName.isEmpty()) "Welcome to Incidex!"
+            else "Welcome to Incidex!, $firstName"
 
-        findViewById<TextView>(R.id.txtAvatar).text =
-            name.split(" ")
-                .filter { it.isNotBlank() }
-                .take(2)
-                .joinToString("") {
-                    it.first().uppercase()
-                }
+        // Photo if the user set one, otherwise their initials
+        findViewById<TextView>(R.id.txtAvatar)
+            .bindAvatar(name, ProfilePhotos.userPath, R.drawable.user_bg_avatar)
     }
 
     override fun onResume() {
@@ -298,10 +278,6 @@ class UserHome : AppCompatActivity() {
 
         mapView?.onResume()
         bindHeader()
-
-        // Reload so a report you just submitted shows up
-        loadIncidents()
-        applyFilter(currentFilter)
 
         BottomNavHelper.highlight(
             findViewById<BottomNavigationView>(R.id.bottomNav),

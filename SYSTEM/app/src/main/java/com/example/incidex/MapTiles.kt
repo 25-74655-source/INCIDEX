@@ -26,6 +26,9 @@ object MapTiles {
     }
 }
 
+
+const val PIN_TIP_Y = 22f / 24f
+
 fun mapPin(
     context: Context,
     color: Int = Color.parseColor("#1E3A8A"),

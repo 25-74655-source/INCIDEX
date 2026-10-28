@@ -41,7 +41,7 @@ class UserReportIncidentActivity : AppCompatActivity() {
 
     companion object {
         const val EXTRA_QUICK_TYPE = "quick_type"   // "Accident", "Traffic", ...
-        const val EXTRA_GUEST = "guest"             // galing sa MainActivity (hindi naka-login)
+        const val EXTRA_GUEST = "guest"             // from MainActivity (not logged in)
     }
 
     private val draft = ReportDraft()
@@ -72,16 +72,19 @@ class UserReportIncidentActivity : AppCompatActivity() {
     private lateinit var btnRemovePhoto: View
     private var pendingPhotoFile: File? = null
 
+    // True while the photo is uploading and the report is being saved
+    private var submitting = false
+
     private val isGuest by lazy { intent.getBooleanExtra(EXTRA_GUEST, false) }
 
-    // Camera: kinukuha ang litrato at sine-save sa pendingPhotoFile
+    // Camera: takes the picture and saves it to pendingPhotoFile
     private val takePicture =
         registerForActivityResult(ActivityResultContracts.TakePicture()) { success ->
             val file = pendingPhotoFile
             if (success && file != null && file.length() > 0) {
                 setPhoto(file.absolutePath)
             } else {
-                file?.delete() // na-cancel o walang nakuha
+                file?.delete() // cancelled or nothing captured
             }
             pendingPhotoFile = null
         }
@@ -110,7 +113,7 @@ class UserReportIncidentActivity : AppCompatActivity() {
         setupSeverity()
         setupDetails()
 
-        // Quick report galing sa Home: naka-select na agad ang type
+        // Quick report from Home: the type is already selected
         val quick = intent.getStringExtra(EXTRA_QUICK_TYPE)
         REPORT_TYPES.firstOrNull { it.quickLabel == quick }?.let { selectType(it) }
 
@@ -140,6 +143,7 @@ class UserReportIncidentActivity : AppCompatActivity() {
     }
 
     private fun handleBack() {
+        if (submitting) return   // don't leave while the report is being sent
         when {
             step > 1 -> showStep(step - 1)
             hasProgress() -> AlertDialog.Builder(this)
@@ -160,7 +164,7 @@ class UserReportIncidentActivity : AppCompatActivity() {
                 draft.description.isNotBlank() || draft.photoPath != null
 
     private fun updateNext() {
-        val valid = when (step) {
+        val valid = !submitting && when (step) {
             1 -> draft.lat != null
             2 -> draft.type != null
             3 -> draft.severity != null
@@ -255,14 +259,24 @@ class UserReportIncidentActivity : AppCompatActivity() {
             val text = try {
                 @Suppress("DEPRECATION")
                 val a = Geocoder(this, Locale.getDefault()).getFromLocation(lat, lng, 1)?.firstOrNull()
-                listOfNotNull(a?.subLocality ?: a?.thoroughfare, a?.locality, a?.adminArea)
-                    .distinct()
-                    .joinToString(", ")
+                if (a == null) {
+                    ""
+                } else {
+                    val street = listOfNotNull(a.subThoroughfare, a.thoroughfare)
+                        .joinToString(" ")
+                        .ifBlank { null }
+                    listOfNotNull(
+                        street,                         // street (if there is one)
+                        a.subLocality,                  // barangay / ward
+                        a.locality ?: a.subAdminArea,   // town / city
+                        a.adminArea                     // province / region
+                    ).distinct().joinToString(", ")
+                }
             } catch (e: Exception) {
                 ""
             }
             runOnUiThread {
-                // Kung nagbago na ang pin habang naghahanap, huwag nang i-update
+                // If the pin moved while we were searching, don't update
                 if (draft.lat == lat && draft.lng == lng) {
                     draft.address = text.ifBlank { coordsText() }
                     txtAddress.text = draft.address
@@ -338,7 +352,7 @@ class UserReportIncidentActivity : AppCompatActivity() {
             updateNext()
         }
 
-        // Pindutin ang box (o ang preview) para kumuha / mag-retake
+        // Tap the box (or the preview) to take / retake the photo
         findViewById<View>(R.id.btnAddPhoto).setOnClickListener { launchCamera() }
         btnRemovePhoto.setOnClickListener { clearPhoto() }
     }
@@ -363,7 +377,7 @@ class UserReportIncidentActivity : AppCompatActivity() {
             toast("Couldn't load that photo")
             return
         }
-        // Retake: burahin ang dating litrato
+        // Retake: delete the earlier photo
         draft.photoPath?.takeIf { it != path }?.let { File(it).delete() }
 
         draft.photoPath = path
@@ -420,39 +434,81 @@ class UserReportIncidentActivity : AppCompatActivity() {
         }
     }
 
+    // ---------------------------------------------------------------- submit
+
+    private fun setSubmitting(value: Boolean) {
+        submitting = value
+        btnNext.text = if (value) "Submitting…" else "Submit Report"
+        updateNext()
+    }
+
+    private fun fail(message: String) {
+        if (isFinishing || isDestroyed) return
+        setSubmitting(false)
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show()
+    }
+
+    /** Sign in (guests get an anonymous account) -> upload the photo -> save the report in Firestore. */
     private fun submit() {
+        if (submitting) return
+
         val type = draft.type ?: return
         val severity = draft.severity ?: return
+        val lat = draft.lat ?: return
+        val lng = draft.lng ?: return
 
         // A photo is required to submit
-        if (draft.photoPath == null) {
+        val photoPath = draft.photoPath
+        if (photoPath == null) {
             toast("A photo is required to submit a report")
             showStep(4)
             return
         }
 
-        val now = Date()
+        setSubmitting(true)
 
-        val report = UserReport(
-            id = ReportStore.nextId(),
-            type = type.name,
-            severity = severity,
-            status = Status.SUBMITTED,
-            location = draft.address.ifBlank { coordsText() },
-            dateTime = SimpleDateFormat(dateFormat, Locale.getDefault()).format(now),
-            description = draft.description.trim(),
-            lat = draft.lat ?: 0.0,
-            lng = draft.lng ?: 0.0,
-            submittedTime = SimpleDateFormat("hh:mm a", Locale.getDefault()).format(now),
-            photoPath = draft.photoPath
-        )
-        ReportStore.add(report)
+        AuthRepository.ensureSignedIn { authError ->
+            if (authError != null) {
+                fail(authError)
+                return@ensureSignedIn
+            }
+
+            CloudinaryUploader.upload(photoPath) { photoUrl, uploadError ->
+                if (photoUrl == null) {
+                    fail(uploadError ?: "Photo upload failed.")
+                    return@upload
+                }
+
+                ReportStore.submit(
+                    type = type.name,
+                    severity = severity,
+                    location = draft.address.ifBlank { coordsText() },
+                    description = draft.description,
+                    lat = lat,
+                    lng = lng,
+                    photoUrl = photoUrl
+                ) { id, saveError ->
+                    if (id == null) {
+                        fail(saveError ?: "Couldn't save the report.")
+                    } else {
+                        File(photoPath).delete()   // the photo is online now
+                        draft.photoPath = null
+                        onSubmitted(id)
+                    }
+                }
+            }
+        }
+    }
+
+    private fun onSubmitted(id: String) {
+        if (isFinishing || isDestroyed) return
+        submitting = false
 
         if (isGuest) {
             // Not logged in: ask if they want to log in or register
             startActivity(
                 Intent(this, AccountChoiceActivity::class.java)
-                    .putExtra(AccountChoiceActivity.EXTRA_REPORT_ID, report.id)
+                    .putExtra(AccountChoiceActivity.EXTRA_REPORT_ID, id)
             )
             finish()
             return
@@ -460,7 +516,7 @@ class UserReportIncidentActivity : AppCompatActivity() {
 
         AlertDialog.Builder(this)
             .setTitle("Report submitted")
-            .setMessage("Your report ${report.id} was sent. You can track it in My Reports.")
+            .setMessage("Your report $id was sent. You can track it in My Reports.")
             .setCancelable(false)
             .setPositiveButton("View My Reports") { _, _ ->
                 startActivity(Intent(this, UserReportsActivity::class.java))
@@ -469,7 +525,7 @@ class UserReportIncidentActivity : AppCompatActivity() {
             .show()
     }
 
-    // ---------------------------------------------------------------- helpers
+    // helpers
 
     private fun hideKeyboard() {
         val view = currentFocus ?: return

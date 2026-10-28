@@ -221,62 +221,26 @@
 
                     <TextView
                         android:id="@+id/chipAll"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/UserChip"
                         android:layout_marginEnd="8dp"
-                        android:background="@drawable/user_bg_chip"
-                        android:paddingStart="14dp"
-                        android:paddingTop="6dp"
-                        android:paddingEnd="14dp"
-                        android:paddingBottom="6dp"
-                        android:text="All"
-                        android:textColor="@color/role_text_color"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
+                        android:text="All" />
 
                     <TextView
                         android:id="@+id/chipCritical"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/UserChip"
                         android:layout_marginEnd="8dp"
-                        android:background="@drawable/user_bg_chip"
-                        android:paddingStart="14dp"
-                        android:paddingTop="6dp"
-                        android:paddingEnd="14dp"
-                        android:paddingBottom="6dp"
-                        android:text="Critical"
-                        android:textColor="@color/role_text_color"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
+                        android:text="Critical" />
 
                     <TextView
                         android:id="@+id/chipModerate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        style="@style/UserChip"
                         android:layout_marginEnd="8dp"
-                        android:background="@drawable/user_bg_chip"
-                        android:paddingStart="14dp"
-                        android:paddingTop="6dp"
-                        android:paddingEnd="14dp"
-                        android:paddingBottom="6dp"
-                        android:text="Moderate"
-                        android:textColor="@color/role_text_color"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
+                        android:text="Moderate" />
 
                     <TextView
                         android:id="@+id/chipLow"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/user_bg_chip"
-                        android:paddingStart="14dp"
-                        android:paddingTop="6dp"
-                        android:paddingEnd="14dp"
-                        android:paddingBottom="6dp"
-                        android:text="Low"
-                        android:textColor="@color/role_text_color"
-                        android:textSize="11sp"
-                        android:textStyle="bold" />
+                        style="@style/UserChip"
+                        android:text="Low" />
                 </LinearLayout>
             </HorizontalScrollView>
 

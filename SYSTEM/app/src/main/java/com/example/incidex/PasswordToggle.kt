@@ -8,10 +8,6 @@ import android.view.MotionEvent
 import android.widget.EditText
 import androidx.core.content.ContextCompat
 
-/**
- * Adds a show/hide eye icon at the end of a password field.
- * Usage: edtPassword.enablePasswordToggle()
- */
 @SuppressLint("ClickableViewAccessibility")
 fun EditText.enablePasswordToggle(tint: Int = Color.parseColor("#64748B")) {
     val density = resources.displayMetrics.density

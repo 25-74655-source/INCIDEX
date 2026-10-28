@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 
 class ForgotPasswordActivity : AppCompatActivity() {
@@ -47,11 +48,22 @@ class ForgotPasswordActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // TODO: replace with the real reset call (e.g. Firebase sendPasswordResetEmail)
-            txtSuccessSub.text =
-                "If an account exists for $email, we've sent a link to reset your password."
-            form.visibility = View.GONE
-            success.visibility = View.VISIBLE
+            btnSend.isEnabled = false
+            AuthRepository.sendReset(email) { error ->
+                btnSend.isEnabled = true
+
+                if (error != null) {
+                    Toast.makeText(this, error, Toast.LENGTH_LONG).show()
+                    return@sendReset
+                }
+
+                // Same message whether or not the email has an account (nothing is revealed)
+                txtSuccessSub.text =
+                    "If an account exists for $email, we've sent a link to reset your password. " +
+                            "Check your spam folder too."
+                form.visibility = View.GONE
+                success.visibility = View.VISIBLE
+            }
         }
     }
 }

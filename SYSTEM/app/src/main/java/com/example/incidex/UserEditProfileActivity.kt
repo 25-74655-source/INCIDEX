@@ -12,8 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
+import java.io.File
 
 class UserEditProfileActivity : AppCompatActivity() {
+
+    companion object {
+        private const val STATE_PHOTO = "pending_photo"
+        private const val STATE_REMOVE = "remove_photo"
+    }
 
     private lateinit var tilName: TextInputLayout
     private lateinit var tilEmail: TextInputLayout
@@ -21,10 +27,18 @@ class UserEditProfileActivity : AppCompatActivity() {
     private lateinit var edtEmail: TextInputEditText
     private lateinit var btnSave: Button
     private lateinit var txtAvatar: TextView
+    private lateinit var picker: ProfilePhotoPicker
+
+    // A photo picked on this screen but not saved yet
+    private var pendingPhoto: String? = null
+    private var removePhoto = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.user_edit_profile)
+
+        pendingPhoto = savedInstanceState?.getString(STATE_PHOTO)
+        removePhoto = savedInstanceState?.getBoolean(STATE_REMOVE) ?: false
 
         tilName = findViewById(R.id.tilName)
         tilEmail = findViewById(R.id.tilEmail)
@@ -36,6 +50,27 @@ class UserEditProfileActivity : AppCompatActivity() {
         // Phone number is no longer used: hide the field
         findViewById<View>(R.id.tilPhone).visibility = View.GONE
 
+        // Photo picker (camera / gallery / remove)
+        picker = ProfilePhotoPicker(
+            this,
+            "user",
+            hasPhoto = { shownPhoto() != null },
+            onPhoto = { file ->
+                pendingPhoto?.let { File(it).delete() }   // replace an earlier unsaved pick
+                pendingPhoto = file.absolutePath
+                removePhoto = false
+                updateAvatar()
+                updateSaveState()
+            },
+            onRemove = {
+                pendingPhoto?.let { File(it).delete() }
+                pendingPhoto = null
+                removePhoto = ProfilePhotos.userPath != null
+                updateAvatar()
+                updateSaveState()
+            }
+        )
+
         // Current values
         edtName.setText(UserSession.name)
         edtEmail.setText(UserSession.email)
@@ -45,7 +80,7 @@ class UserEditProfileActivity : AppCompatActivity() {
         // Live updates
         edtName.doAfterTextChanged {
             tilName.error = null
-            updateAvatar()
+            if (shownPhoto() == null) txtAvatar.text = initialsOf(currentName())
             updateSaveState()
         }
         edtEmail.doAfterTextChanged {
@@ -53,12 +88,11 @@ class UserEditProfileActivity : AppCompatActivity() {
             updateSaveState()
         }
 
-        // Photo (needs storage, kaya coming soon muna)
-        val photoClick = View.OnClickListener {
-            Toast.makeText(this, "Change photo coming soon", Toast.LENGTH_SHORT).show()
-        }
+        // Photo: avatar, camera badge and "Change photo" all open the picker
+        val photoClick = View.OnClickListener { picker.show() }
         findViewById<View>(R.id.btnEditPhoto).setOnClickListener(photoClick)
         findViewById<View>(R.id.btnChangePhoto).setOnClickListener(photoClick)
+        txtAvatar.setOnClickListener(photoClick)
 
         // Cancel / Back
         findViewById<View>(R.id.btnCancel).setOnClickListener { confirmExit() }
@@ -70,12 +104,31 @@ class UserEditProfileActivity : AppCompatActivity() {
         btnSave.setOnClickListener { save() }
     }
 
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(STATE_PHOTO, pendingPhoto)
+        outState.putBoolean(STATE_REMOVE, removePhoto)
+    }
+
+    override fun onDestroy() {
+        // Leaving without saving: delete the unsaved photo file
+        if (isFinishing) pendingPhoto?.let { File(it).delete() }
+        super.onDestroy()
+    }
+
     private fun currentName() = edtName.text.toString().trim()
     private fun currentEmail() = edtEmail.text.toString().trim()
 
+    /** The photo that should be showing right now, or null for initials. */
+    private fun shownPhoto(): String? =
+        if (removePhoto) null else pendingPhoto ?: ProfilePhotos.userPath
+
+    private fun photoChanged() = pendingPhoto != null || removePhoto
+
     private fun hasChanges() =
         currentName() != UserSession.name ||
-                currentEmail() != UserSession.email
+                currentEmail() != UserSession.email ||
+                photoChanged()
 
     private fun updateSaveState() {
         val enabled = hasChanges()
@@ -84,12 +137,7 @@ class UserEditProfileActivity : AppCompatActivity() {
     }
 
     private fun updateAvatar() {
-        val initials = currentName()
-            .split(" ")
-            .filter { it.isNotBlank() }
-            .take(2)
-            .joinToString("") { it.first().uppercase() }
-        txtAvatar.text = initials.ifEmpty { "?" }
+        txtAvatar.bindAvatar(currentName(), shownPhoto(), R.drawable.user_bg_avatar)
     }
 
     private fun validate(): Boolean {
@@ -112,6 +160,18 @@ class UserEditProfileActivity : AppCompatActivity() {
         // Temporary: sa memory lang. Papalitan ng Firebase update later.
         UserSession.name = currentName()
         UserSession.email = currentEmail()
+
+        // Photo
+        val newPhoto = pendingPhoto
+        if (newPhoto != null) {
+            ProfilePhotos.userPath?.let { File(it).delete() }
+            ProfilePhotos.userPath = newPhoto
+            pendingPhoto = null            // saved, so don't delete it in onDestroy
+        } else if (removePhoto) {
+            ProfilePhotos.userPath?.let { File(it).delete() }
+            ProfilePhotos.userPath = null
+        }
+        removePhoto = false
 
         Toast.makeText(this, "Profile updated", Toast.LENGTH_SHORT).show()
         finish()

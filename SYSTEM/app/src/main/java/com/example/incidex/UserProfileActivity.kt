@@ -27,8 +27,11 @@ class UserProfileActivity : AppCompatActivity() {
             )
         }
 
-        // LOG OUT -> MainActivity, at binubura ang lahat ng naunang screens
+        // LOG OUT -> MainActivity, and clear every screen before it
         findViewById<View>(R.id.btnLogout).setOnClickListener {
+            AuthRepository.signOut()   // without this, reopening the app logs you straight back in
+            ReportStore.stop()
+            ProfilePhotos.clearUser()
             UserSession.clear()
             startActivity(
                 Intent(this, MainActivity::class.java).addFlags(
@@ -46,16 +49,13 @@ class UserProfileActivity : AppCompatActivity() {
         val name = UserSession.name
         findViewById<TextView>(R.id.txtName).text = name
         findViewById<TextView>(R.id.txtEmail).text = UserSession.email.ifBlank { "No email" }
-        findViewById<TextView>(R.id.txtAvatar).text =
-            name.split(" ")
-                .filter { it.isNotBlank() }
-                .take(2)
-                .joinToString("") { it.first().uppercase() }
+        findViewById<TextView>(R.id.txtAvatar)
+            .bindAvatar(name, ProfilePhotos.userPath, R.drawable.user_bg_avatar)
     }
 
     override fun onResume() {
         super.onResume()
-        bindUser() // refresh pagbalik mula sa Edit Profile
+        bindUser() // refresh after coming back from Edit Profile
         BottomNavHelper.highlight(findViewById<BottomNavigationView>(R.id.bottomNav), R.id.nav_profile)
     }
 }

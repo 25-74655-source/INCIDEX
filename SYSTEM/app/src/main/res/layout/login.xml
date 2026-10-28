@@ -8,7 +8,6 @@
     android:background="@drawable/bg_screen_gradient"
     tools:context=".Login">
 
-    <!-- Back Button -->
     <TextView
         android:id="@+id/txtBack"
         android:layout_width="wrap_content"
@@ -38,7 +37,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtBack" />
 
-    <!-- Title -->
     <TextView
         android:id="@+id/txtLoginTitle"
         android:layout_width="wrap_content"
@@ -52,7 +50,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/imgLoginLogo" />
 
-    <!-- Subtitle -->
     <TextView
         android:id="@+id/txtLoginSubtitle"
         android:layout_width="wrap_content"
@@ -65,7 +62,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txtLoginTitle" />
 
-    <!-- FORM CARD (background only, must stay before the fields) -->
     <View
         android:id="@+id/viewFormCard"
         android:layout_width="0dp"
@@ -162,7 +158,7 @@
         android:layout_marginEnd="44dp"
         android:background="@drawable/bg_input"
         android:elevation="4dp"
-        android:hint="Enter your email"
+        android:hint="email@gmail.com"
         android:inputType="textEmailAddress"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"

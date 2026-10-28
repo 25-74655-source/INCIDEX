@@ -127,62 +127,26 @@
 
                 <TextView
                     android:id="@+id/chipAll"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/UserChip"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/user_bg_chip"
-                    android:paddingStart="14dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="14dp"
-                    android:paddingBottom="6dp"
-                    android:text="All"
-                    android:textColor="@color/role_text_color"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:text="All" />
 
                 <TextView
                     android:id="@+id/chipSubmitted"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/UserChip"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/user_bg_chip"
-                    android:paddingStart="14dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="14dp"
-                    android:paddingBottom="6dp"
-                    android:text="Submitted"
-                    android:textColor="@color/role_text_color"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:text="Submitted" />
 
                 <TextView
                     android:id="@+id/chipVerified"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/UserChip"
                     android:layout_marginEnd="8dp"
-                    android:background="@drawable/user_bg_chip"
-                    android:paddingStart="14dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="14dp"
-                    android:paddingBottom="6dp"
-                    android:text="Verified"
-                    android:textColor="@color/role_text_color"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                    android:text="Verified" />
 
                 <TextView
                     android:id="@+id/chipResolved"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/user_bg_chip"
-                    android:paddingStart="14dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="14dp"
-                    android:paddingBottom="6dp"
-                    android:text="Resolved"
-                    android:textColor="@color/role_text_color"
-                    android:textSize="11sp"
-                    android:textStyle="bold" />
+                    style="@style/UserChip"
+                    android:text="Resolved" />
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>
