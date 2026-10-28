@@ -1,0 +1,11 @@
+<resources>
+    <style name="User.Chip" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/user_chip_bg</item>
+        <item name="android:textColor">@color/user_chip_text</item>
+        <item name="chipStrokeColor">#D5DDF0</item>
+        <item name="chipStrokeWidth">1dp</item>
+        <item name="chipCornerRadius">20dp</item>
+        <item name="checkedIconVisible">false</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+</resources>
