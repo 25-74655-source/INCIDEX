@@ -1,0 +1,227 @@
+herepackage backend.routing
+
+import backend.locations.Location
+import backend.reports.Report
+import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
+import java.net.URLEncoder
+
+data class EmergencyRoute(
+    val incidentId: String,
+    val destinationName: String,
+    val distanceKm: Double,
+    val durationMinutes: Double,
+    val coordinates: List<Location>,
+    val instructions: List<String>
+)
+
+data class Hospital(
+    val hospitalId: String,
+    val hospitalName: String,
+    val location: Location
+)
+
+object MDRRMOOffice {
+
+    val location = Location(
+        latitude = 14.07395,
+        longitude = 120.63267
+    )
+}
+
+class EmergencyRoutingService(
+    private val apiKey: String
+) {
+
+    fun shortestRouteToIncident(
+        report: Report
+    ): EmergencyRoute {
+
+        val office = MDRRMOOffice.location
+
+        val accident = Location(
+            latitude = report.incident.latitude,
+            longitude = report.incident.longitude
+        )
+
+        return calculateRoute(
+            incidentId = report.reportId,
+            destinationName = "Accident Location",
+            origin = office,
+            destination = accident
+        )
+    }
+
+    fun shortestRouteToHospital(
+        report: Report,
+        hospital: Hospital
+    ): EmergencyRoute {
+
+        val accidentLocation = Location(
+            latitude = report.incident.latitude,
+            longitude = report.incident.longitude
+        )
+
+        return calculateRoute(
+            incidentId = report.reportId,
+            destinationName = hospital.hospitalName,
+            origin = accidentLocation,
+            destination = hospital.location
+        )
+    }
+
+    fun shortestRouteToNearestHospital(
+        report: Report,
+        hospitals: List<Hospital>
+    ): EmergencyRoute {
+
+        require(hospitals.isNotEmpty()) {
+            "No hospitals available"
+        }
+
+        val accidentLocation = Location(
+            latitude = report.incident.latitude,
+            longitude = report.incident.longitude
+        )
+
+        return hospitals.map { hospital ->
+
+            calculateRoute(
+                incidentId = report.reportId,
+                destinationName = hospital.hospitalName,
+                origin = accidentLocation,
+                destination = hospital.location
+            )
+
+        }.minByOrNull { it.distanceKm }
+            ?: throw Exception("No hospital route found")
+    }
+
+    private fun calculateRoute(
+        incidentId: String,
+        destinationName: String,
+        origin: Location,
+        destination: Location
+    ): EmergencyRoute {
+
+        validateLocation(origin)
+        validateLocation(destination)
+
+        val urlString =
+            "https://graphhopper.com/api/1/route?" +
+            "point=${origin.latitude},${origin.longitude}" +
+            "&point=${destination.latitude},${destination.longitude}" +
+            "&profile=car" +
+            "&locale=en" +
+            "&instructions=true" +
+            "&calc_points=true" +
+            "&points_encoded=false" +
+            "&weighting=shortest" +
+            "&ch.disable=true" +
+            "&key=${encode(apiKey)}"
+
+        val connection =
+            URL(urlString).openConnection() as HttpURLConnection
+
+        connection.requestMethod = "GET"
+        connection.connectTimeout = 10000
+        connection.readTimeout = 15000
+
+        try {
+
+            val responseCode = connection.responseCode
+
+            val responseStream =
+                if (responseCode in 200..299) {
+                    connection.inputStream
+                } else {
+                    connection.errorStream
+                }
+
+            val response = responseStream?.bufferedReader()?.use {
+                it.readText()
+            } ?: throw Exception("Empty routing response")
+
+            if (responseCode !in 200..299) {
+                throw Exception("Routing API error: $response")
+            }
+
+            val json = JSONObject(response)
+            val paths = json.getJSONArray("paths")
+
+            if (paths.length() == 0) {
+                throw Exception("No available route found")
+            }
+
+            val path = paths.getJSONObject(0)
+
+            val distanceKm =
+                path.getDouble("distance") / 1000.0
+
+            val durationMinutes =
+                path.getDouble("time") / 60000.0
+
+            val points = path
+                .getJSONObject("points")
+                .getJSONArray("coordinates")
+
+            val routeCoordinates = mutableListOf<Location>()
+
+            for (i in 0 until points.length()) {
+
+                val coordinate = points.getJSONArray(i)
+
+                routeCoordinates.add(
+                    Location(
+                        latitude = coordinate.getDouble(1),
+                        longitude = coordinate.getDouble(0)
+                    )
+                )
+            }
+
+            val instructions = mutableListOf<String>()
+
+            val steps = path.getJSONArray("instructions")
+
+            for (i in 0 until steps.length()) {
+
+                val step = steps.getJSONObject(i)
+
+                instructions.add(
+                    step.optString(
+                        "text",
+                        "Continue on route"
+                    )
+                )
+            }
+
+            return EmergencyRoute(
+                incidentId = incidentId,
+                destinationName = destinationName,
+                distanceKm = distanceKm,
+                durationMinutes = durationMinutes,
+                coordinates = routeCoordinates,
+                instructions = instructions
+            )
+
+        } finally {
+            connection.disconnect()
+        }
+    }
+
+    private fun validateLocation(location: Location) {
+
+        require(location.latitude in -90.0..90.0) {
+            "Invalid latitude"
+        }
+
+        require(location.longitude in -180.0..180.0) {
+            "Invalid longitude"
+        }
+    }
+
+    private fun encode(value: String): String {
+        return URLEncoder.encode(value, "UTF-8")
+    }
+}
