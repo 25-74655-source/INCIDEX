@@ -1,0 +1,227 @@
+{
+  "mdrrmo": {
+    "name": "MDRRMO Nasugbu",
+    "lat": 14.074083,
+    "lng": 120.632747
+  },
+  "hospitals": [
+    {
+      "id": "apacible",
+      "name": "Apacible Memorial District Hospital",
+      "municipality": "Nasugbu",
+      "address": "Brgy. Lumbangan, Nasugbu",
+      "lat": 14.051013,
+      "lng": 120.647261,
+      "kind": "hospital",
+      "level": 1,
+      "ownership": "government",
+      "open24h": true,
+      "er": "yes",
+      "services": [],
+      "phones": [
+        "0917 130 2734"
+      ],
+      "notes": "Listed as a 24-hour hospital. Confirm ER staffing before non-immediate transfers. DOH classification: Level 1 General Hospital, 50 beds. License status: verify current DOH LTO."
+    },
+    {
+      "id": "jabez",
+      "name": "Jabez Medical Center",
+      "municipality": "Nasugbu",
+      "address": "J.P. Laurel Street, Nasugbu",
+      "lat": 14.064922,
+      "lng": 120.633244,
+      "kind": "hospital",
+      "level": 1,
+      "ownership": "private",
+      "open24h": true,
+      "er": "yes",
+      "services": [],
+      "phones": [
+        "0928 696 8089"
+      ],
+      "notes": "ER advertised 24/7 in the hospital's own information. DOH classification: Level 1 General Hospital. License status: verify current DOH LTO."
+    },
+    {
+      "id": "ospital-nasugbu",
+      "name": "Ospital ng Nasugbu",
+      "municipality": "Nasugbu",
+      "address": "P. Rinoza Street, Brgy. 1, Nasugbu",
+      "lat": 14.074265,
+      "lng": 120.630956,
+      "kind": "infirmary",
+      "level": 1,
+      "ownership": "government",
+      "open24h": true,
+      "er": "yes",
+      "services": [],
+      "phones": [],
+      "notes": "Government hospital/infirmary listing. Confirm emergency capability and contact details. DOH classification: Infirmary, 25 beds. License status: verify current DOH LTO."
+    },
+    {
+      "id": "metropolitan-nasugbu",
+      "name": "Metropolitan Medical Center - Nasugbu",
+      "municipality": "Nasugbu",
+      "address": "Nasugbu",
+      "lat": 14.055977749937709,
+      "lng": 120.64357208890198,
+      "kind": "hospital",
+      "level": 1,
+      "ownership": "private",
+      "open24h": false,
+      "er": "yes",
+      "services": [],
+      "phones": [],
+      "notes": "Details not yet confirmed. Fill in after calling."
+    },
+    {
+      "id": "bpmc-tuy",
+      "name": "Batangas Provincial Medical Center",
+      "municipality": "Tuy",
+      "address": "Brgy. Putol, Tuy",
+      "lat": 13.995414462414068,
+      "lng": 120.72871382463721,
+      "kind": "infirmary",
+      "level": 2,
+      "ownership": "government",
+      "open24h": false,
+      "er": "yes",
+      "services": [],
+      "phones": [],
+      "notes": "Listed as infirmary/dispensary. No verified ER hotline. Confirm before using. DOH classification: Infirmary/Dispensary, 50 beds. License status: verify current DOH LTO."
+    },
+    {
+      "id": "ospital-tuy",
+      "name": "Ospital ng Tuy",
+      "municipality": "Tuy",
+      "address": "Burgos Street, Tuy",
+      "lat": 14.020159735726214,
+      "lng": 120.72986573813105,
+      "kind": "hospital",
+      "level": 1,
+      "ownership": "government",
+      "open24h": false,
+      "er": "unconfirmed",
+      "services": [],
+      "phones": [],
+      "notes": "Listed locally as a community hospital. Emergency services need confirmation. DOH classification: Unverified. License status: unverified."
+    },
+    {
+      "id": "mcwb",
+      "name": "Medical Center Western Batangas",
+      "municipality": "Balayan",
+      "address": "Brgy. Lanatan, Balayan",
+      "lat": 13.953822,
+      "lng": 120.728392,
+      "kind": "hospital",
+      "level": 2,
+      "ownership": "private",
+      "open24h": true,
+      "er": "yes",
+      "services": [
+        "ICU",
+        "OR",
+        "AMBULANCE"
+      ],
+      "phones": [
+        "(043) 407-1103",
+        "0917 435 9943"
+      ],
+      "notes": "Listed with 24/7 emergency services, ambulance, ICU and operating room. DOH classification: Level 2 General Hospital, 40 beds. License status: verify current DOH LTO."
+    },
+    {
+      "id": "metro-balayan",
+      "name": "Metro Balayan Medical Center",
+      "municipality": "Balayan",
+      "address": "National Highway, Brgy. Caloocan, Balayan",
+      "lat": 13.949530,
+      "lng": 120.727931,
+      "kind": "hospital",
+      "level": 2,
+      "ownership": "private",
+      "open24h": true,
+      "er": "yes",
+      "services": [],
+      "phones": [
+        "(043) 740-1350",
+        "(043) 211-6633"
+      ],
+      "notes": "24-hour general hospital listing. ER and ICU/OR not confirmed. DOH classification: Level 2 General Hospital, 58 beds. License status: verify current DOH LTO."
+    },
+    {
+      "id": "bayview",
+      "name": "Balayan Bayview Hospital and Medical Center",
+      "municipality": "Balayan",
+      "address": "Brgy. Langgangan, Balayan",
+      "lat": 13.945883,
+      "lng": 120.753745,
+      "kind": "hospital",
+      "level": 1,
+      "ownership": "private",
+      "open24h": true,
+      "er": "yes",
+      "services": [],
+      "phones": [
+        "(043) 407-3508",
+        "0936 585 2893"
+      ],
+      "notes": "Level 1 hospital. 24-hour ER not confirmed. DOH classification: Level 1 General Hospital, 45 beds. License status: verify current DOH LTO."
+    },
+    {
+      "id": "don-manuel-lopez",
+      "name": "Don Manuel Lopez Memorial District Hospital",
+      "municipality": "Balayan",
+      "address": "Gumamela area, Balayan",
+      "lat": 13.948114,
+      "lng": 120.747401,
+      "kind": "hospital",
+      "level": 1,
+      "ownership": "government",
+      "open24h": false,
+      "er": "unconfirmed",
+      "services": [],
+      "phones": [
+        "(043) 211-4169"
+      ],
+      "notes": "Government district hospital. Verify current ER capacity. DOH classification: Level 1 General Hospital, 50 beds. License status: verify current DOH LTO."
+    },
+    {
+      "id": "tagaytay-medical",
+      "name": "Tagaytay Medical Center",
+      "municipality": "Tagaytay",
+      "address": "Emilio Aguinaldo Highway, Silang Junction North, Tagaytay City",
+      "lat": 14.115405,
+      "lng": 120.960798,
+      "kind": "hospital",
+      "level": 2,
+      "ownership": "private",
+      "open24h": true,
+      "er": "yes",
+      "services": [
+        "AMBULANCE"
+      ],
+      "phones": [
+        "(046) 483-1862",
+        "(046) 483-0134"
+      ],
+      "notes": "24/7 ER and 24-hour ambulance listed. Emergency hotline (046) 483-1862. DOH classification: Level 2 General Hospital, 90 beds. License status: verify current DOH LTO."
+    },
+    {
+      "id": "ospital-tagaytay",
+      "name": "Ospital ng Tagaytay",
+      "municipality": "Tagaytay",
+      "address": "1315 Emilio Aguinaldo Highway, Tagaytay City",
+      "lat": 14.099225,
+      "lng": 120.940123,
+      "kind": "infirmary",
+      "level": 1,
+      "ownership": "government",
+      "open24h": true,
+      "er": "unconfirmed",
+      "services": [],
+      "phones": [
+        "(046) 888-9510"
+      ],
+      "notes": "24-hour operation listed. Confirm emergency department availability. DOH classification: Infirmary, 40 beds. License status: verify current DOH LTO."
+    }
+  ]
+}

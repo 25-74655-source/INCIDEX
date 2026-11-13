@@ -143,6 +143,12 @@
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
 
         <activity
+            android:name=".AdminUsers"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
+
+        <activity
             android:name=".AdminProfile"
             android:exported="false"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
@@ -158,7 +164,10 @@
             android:exported="false"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
-
+        <activity
+            android:name=".AdminRoute"
+            android:exported="false"
+            android:theme="@style/Theme.MaterialComponents.Light.NoActionBar" />
     </application>
 
 </manifest>

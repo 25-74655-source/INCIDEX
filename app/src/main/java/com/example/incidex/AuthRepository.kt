@@ -48,8 +48,9 @@ object AuthRepository {
 
     /**
      * For app launch: if someone is already signed in with an account (not a guest),
-     * loads their profile. Gives null for "nobody" or "guest". Never signs anyone out,
-     * so being offline at launch doesn't lose the session.
+     * loads their profile. Gives null for "nobody", "guest" or "account removed".
+     * A network problem never signs anyone out, so being offline at launch
+     * doesn't lose the session.
      */
     fun restoreSession(onResult: (Profile?) -> Unit) {
         val user = auth.currentUser
@@ -71,15 +72,18 @@ object AuthRepository {
     ) {
         db.collection("users").document(uid).get()
             .addOnSuccessListener { doc ->
+                // No profile document = removed by an administrator, or a registration
+                // that was never finished. Either way this account must not get in.
                 if (!doc.exists()) {
-                    // The account has no profile (for example a registration that was never finished)
-                    if (signOutOnFailure) auth.signOut()
+                    auth.signOut()
                     onResult(
                         null,
-                        "This account has no profile. Please register again, or ask the administrator."
+                        "This account has been removed or was never completed. " +
+                                "Please contact an administrator, or register again."
                     )
                     return@addOnSuccessListener
                 }
+
                 val name = doc.getString("name")?.takeIf { it.isNotBlank() }
                     ?: displayName?.takeIf { it.isNotBlank() }
                     ?: email.substringBefore("@")
@@ -111,7 +115,10 @@ object AuthRepository {
 
     /** Creates the account and sends the verification email. The user stays signed in until step 3. */
     fun startRegistration(email: String, password: String, onResult: (String?) -> Unit) {
-        auth.createUserWithEmailAndPassword(email, password)
+        // Firebase stores emails in lowercase, and the rules compare against that
+        val cleanEmail = email.trim().lowercase()
+
+        auth.createUserWithEmailAndPassword(cleanEmail, password)
             .addOnSuccessListener { result ->
                 val user = result.user
                 if (user == null) {

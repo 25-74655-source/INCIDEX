@@ -22,7 +22,6 @@ import org.osmdroid.views.MapView
 import org.osmdroid.views.overlay.Marker
 import kotlin.math.abs
 
-/** Turns a submitted report into a row for the Nearby Incidents list. */
 private fun UserReport.toIncident() = UserIncident(
     title = type,
     severity = severity.label.lowercase().replaceFirstChar { it.uppercase() },
@@ -265,8 +264,8 @@ class UserHome : AppCompatActivity() {
         val firstName = name.trim().split(" ").firstOrNull().orEmpty()
 
         findViewById<TextView>(R.id.txtGreeting).text =
-            if (firstName.isEmpty()) "Welcome to Incidex!"
-            else "Welcome to Incidex!, $firstName"
+            if (firstName.isEmpty()) "Welcome to Incidex"
+            else "Welcome to Incidex, $firstName!"
 
         // Photo if the user set one, otherwise their initials
         findViewById<TextView>(R.id.txtAvatar)

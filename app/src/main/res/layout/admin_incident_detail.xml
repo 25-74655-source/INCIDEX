@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F7FB"
@@ -26,7 +27,7 @@
             android:contentDescription="Back"
             android:padding="9dp"
             android:src="@drawable/admin_ic_back"
-            android:tint="#111827" />
+            app:tint="#111827" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -157,7 +158,7 @@
                         android:layout_height="14dp"
                         android:contentDescription="@null"
                         android:src="@drawable/admin_ic_pin"
-                        android:tint="#2563EB" />
+                        app:tint="#2563EB" />
 
                     <TextView
                         android:id="@+id/txtAdminDetailLocation"
@@ -181,7 +182,7 @@
                         android:layout_height="14dp"
                         android:contentDescription="@null"
                         android:src="@drawable/admin_ic_clock"
-                        android:tint="#2563EB" />
+                        app:tint="#2563EB" />
 
                     <TextView
                         android:id="@+id/txtAdminDetailDateTime"
@@ -292,7 +293,7 @@
                         android:layout_height="16dp"
                         android:contentDescription="@null"
                         android:src="@drawable/admin_ic_person"
-                        android:tint="#64748B" />
+                        app:tint="#64748B" />
 
                     <TextView
                         android:id="@+id/txtAdminDetailReporterHeader"
@@ -310,7 +311,7 @@
                         android:layout_height="20dp"
                         android:contentDescription="@null"
                         android:src="@drawable/admin_ic_chevron"
-                        android:tint="#64748B" />
+                        app:tint="#64748B" />
                 </LinearLayout>
 
                 <TextView
@@ -330,7 +331,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/user_bg_card"
                 android:orientation="vertical">
 
@@ -348,7 +349,7 @@
                         android:layout_height="16dp"
                         android:contentDescription="@null"
                         android:src="@drawable/admin_ic_pin"
-                        android:tint="#2563EB" />
+                        app:tint="#2563EB" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -366,7 +367,7 @@
                         android:layout_height="20dp"
                         android:contentDescription="@null"
                         android:src="@drawable/admin_ic_chevron"
-                        android:tint="#64748B" />
+                        app:tint="#64748B" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -388,14 +389,12 @@
 
                     <TextView
                         android:id="@+id/btnAdminDetailOpenMaps"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/admin_bg_save_btn"
-                        android:paddingStart="14dp"
-                        android:paddingTop="8dp"
-                        android:paddingEnd="14dp"
-                        android:paddingBottom="8dp"
+                        android:gravity="center"
+                        android:padding="10dp"
                         android:text="Open in Maps"
                         android:textColor="#2563EB"
                         android:textSize="12sp"
@@ -403,11 +402,11 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!-- VERIFICATION NOTE -->
+            <!-- RESPONSE ROUTE -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="12dp"
                 android:background="@drawable/user_bg_card"
                 android:orientation="vertical"
                 android:padding="14dp">
@@ -415,53 +414,85 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Verification Note"
+                    android:text="Response Route"
                     android:textColor="#111827"
                     android:textSize="13sp"
                     android:textStyle="bold" />
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:lineSpacingExtra="2dp"
+                    android:text="Shortest route from the MDRRMO office to the incident and, for road accidents, to the nearest suitable hospital."
+                    android:textColor="#64748B"
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/btnAdminDetailRoute"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
                     android:layout_marginTop="10dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                    android:background="@drawable/admin_bg_save_btn"
+                    android:gravity="center"
+                    android:text="Get Response Route"
+                    android:textColor="#2563EB"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
-                    <EditText
-                        android:id="@+id/edtAdminDetailNote"
-                        android:layout_width="0dp"
-                        android:layout_height="40dp"
-                        android:layout_weight="1"
-                        android:background="@drawable/admin_bg_input"
-                        android:hint="Add a note…"
-                        android:imeOptions="actionDone"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:paddingStart="12dp"
-                        android:paddingEnd="12dp"
-                        android:textColor="#111827"
-                        android:textColorHint="#94A3B8"
-                        android:textSize="12sp" />
+            <!-- ADMIN NOTE CARD -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/user_bg_card"
+                android:orientation="vertical"
+                android:padding="14dp">
 
-                    <TextView
-                        android:id="@+id/btnAdminDetailSaveNote"
-                        android:layout_width="wrap_content"
-                        android:layout_height="40dp"
-                        android:layout_marginStart="8dp"
-                        android:background="@drawable/admin_bg_save_btn"
-                        android:gravity="center"
-                        android:paddingStart="16dp"
-                        android:paddingEnd="16dp"
-                        android:text="Save"
-                        android:textColor="#2563EB"
-                        android:textSize="12sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:letterSpacing="0.06"
+                    android:text="ADMIN NOTE"
+                    android:textColor="#64748B"
+                    android:textSize="10sp"
+                    android:textStyle="bold" />
+
+                <EditText
+                    android:id="@+id/edtAdminDetailNote"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/admin_bg_input"
+                    android:gravity="top"
+                    android:hint="Add note for this incident..."
+                    android:minLines="3"
+                    android:padding="12dp"
+                    android:textColor="#111827"
+                    android:textColorHint="#94A3B8"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/btnAdminDetailSaveNote"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/admin_bg_save_btn"
+                    android:paddingStart="16dp"
+                    android:paddingTop="8dp"
+                    android:paddingEnd="16dp"
+                    android:paddingBottom="8dp"
+                    android:text="Save Note"
+                    android:textColor="#2563EB"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
 
-    <!-- ACTION BAR -->
+    <!-- ACTION BUTTONS -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -473,54 +504,45 @@
         <TextView
             android:id="@+id/btnAdminVerify"
             android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_marginEnd="8dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/admin_bg_action_btn"
-            android:drawableStart="@drawable/admin_ic_check"
-            android:drawablePadding="6dp"
-            android:drawableTint="#475569"
+            android:background="@drawable/admin_bg_save_btn"
             android:gravity="center"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:text="Verify"
-            android:textColor="#475569"
-            android:textSize="12sp"
+            android:textColor="#2563EB"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/btnAdminResolve"
             android:layout_width="0dp"
-            android:layout_height="44dp"
-            android:layout_marginEnd="8dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/admin_bg_action_btn"
-            android:drawableStart="@drawable/admin_ic_check"
-            android:drawablePadding="6dp"
-            android:drawableTint="#475569"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/admin_bg_save_btn"
             android:gravity="center"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:text="Resolve"
-            android:textColor="#475569"
-            android:textSize="12sp"
+            android:textColor="#16A34A"
+            android:textSize="13sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/btnAdminReject"
             android:layout_width="0dp"
-            android:layout_height="44dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/admin_bg_action_btn"
-            android:drawableStart="@drawable/admin_ic_close"
-            android:drawablePadding="6dp"
-            android:drawableTint="#475569"
+            android:layout_marginStart="8dp"
+            android:background="@drawable/admin_bg_save_btn"
             android:gravity="center"
-            android:paddingStart="14dp"
-            android:paddingEnd="14dp"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
             android:text="Reject"
-            android:textColor="#475569"
-            android:textSize="12sp"
+            android:textColor="#DC2626"
+            android:textSize="13sp"
             android:textStyle="bold" />
     </LinearLayout>
 </LinearLayout>
