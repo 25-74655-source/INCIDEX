@@ -66,6 +66,14 @@ class AdminIncidentDetailActivity : AppCompatActivity() {
                 .show()
         }
 
+        // Response route (MDRRMO -> incident -> hospital)
+        findViewById<View>(R.id.btnAdminDetailRoute).setOnClickListener {
+            startActivity(
+                Intent(this, AdminRoute::class.java)
+                    .putExtra(AdminRoute.EXTRA_ID, reportId)
+            )
+        }
+
         // Redraw whenever the report changes (for example after a status update)
         ReportStore.observe(this) { bind() }
     }

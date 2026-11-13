@@ -13,3 +13,12 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+# Android and Gradle generated files
+**/build/
+**/.gradle/
+**/.kotlin/
+**/*.class
+**/*.jar
+local.properties
+!**/gradle/wrapper/gradle-wrapper.jar

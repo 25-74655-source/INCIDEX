@@ -13,6 +13,10 @@
         android:icon="@drawable/admin_ic_map"
         android:title="Map" />
     <item
+        android:id="@+id/admin_nav_users"
+        android:icon="@drawable/admin_ic_users"
+        android:title="Users" />
+    <item
         android:id="@+id/admin_nav_profile"
         android:icon="@drawable/admin_ic_profile"
         android:title="Profile" />

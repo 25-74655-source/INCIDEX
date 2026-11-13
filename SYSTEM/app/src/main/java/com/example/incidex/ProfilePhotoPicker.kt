@@ -10,10 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import java.io.File
 
-/**
- * "Take a photo / Choose from gallery / Remove photo" for a profile picture.
- * Create it inside onCreate() (before the activity starts), then call show().
- */
+
 class ProfilePhotoPicker(
     private val activity: AppCompatActivity,
     private val prefix: String,                 // "user" or "admin" (used in file names)

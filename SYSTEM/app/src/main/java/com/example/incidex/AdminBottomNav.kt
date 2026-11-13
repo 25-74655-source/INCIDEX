@@ -18,6 +18,7 @@ object AdminBottomNav {
                 R.id.admin_nav_incidents -> AdminIncidents::class.java
                 R.id.admin_nav_map -> AdminMap::class.java
                 R.id.admin_nav_profile -> AdminProfile::class.java
+                R.id.admin_nav_users -> AdminUsers::class.java
                 else -> null
             }
 
